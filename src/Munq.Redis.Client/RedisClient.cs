@@ -18,7 +18,7 @@ namespace Munq.Redis.Client
 
         public async Task WriteCommandAsync(string command, IEnumerable<object> parameters = null)
         {
-            await EnsureDatabaseSelected();
+            //await EnsureDatabaseSelected();
             await _connection.WriteRedisCommandAsync(command, parameters);
         }
 

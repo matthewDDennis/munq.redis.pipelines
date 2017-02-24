@@ -37,5 +37,22 @@ namespace Munq.Redis.Client.Tests
                 Assert.False(connection.IsDatabaseSelected);
             }
         }
+
+        [Fact]
+        public async Task FirstWriteOnClientSendsSelectIfDatabaseNotZero()
+        {
+            using (var connection = new TestConnection())
+            {
+                string expected = "*1\r\n$4Ping\r\n";
+                var redisConnection = new RedisConnection(connection, 1);
+                var client = new RedisClient(redisConnection);
+                await client.WriteCommandAsync("Ping");
+
+                var readBuffer = await connection.RemoteInput.ReadAsync();
+                var actual = readBuffer.Buffer.GetUtf8String();
+
+                Assert.Equal(expected, actual);
+            }
+        }
     }
 }
