@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Pipelines" Version="0.1.0-e170222-1" />
+    <PackageReference Include="System.IO.Pipelines.Networking.Sockets" Version="0.1.0-e170222-1" />
+    <PackageReference Include="System.IO.Pipelines.Text.Primitives" Version="0.1.0-e170222-1" />
+    <PackageReference Include="System.Text.Formatting" Version="0.1.0-e170222-1" />
+  </ItemGroup>
+
+</Project>
