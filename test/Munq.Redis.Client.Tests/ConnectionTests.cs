@@ -30,7 +30,7 @@ namespace Munq.Redis.Client.Tests
         [Fact]
         public async Task RedisConnectionHasDatabaseNotSelectedOnCreate()
         {
-            var connectionFactory = new SimpleRedisClientFactory();
+            var connectionFactory = new SimpleRedisConnectionFactory();
             using (var connection = await connectionFactory.CreateAsync("127.0.0.1", 135, 1))
             {
                 Assert.Equal(1, connection.Database);

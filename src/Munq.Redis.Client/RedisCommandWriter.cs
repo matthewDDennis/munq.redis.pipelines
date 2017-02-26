@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.IO.Pipelines;
-using System.IO.Pipelines.Text.Primitives;
-using System.Text.Formatting;
+using System.Linq;
 using System.Text;
+using System.Text.Formatting;
 using System.Text.Utf8;
+using System.Threading.Tasks;
 
 namespace Munq.Redis.Client
 {

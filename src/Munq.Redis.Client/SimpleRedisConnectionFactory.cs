@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Pipelines.Networking.Sockets;
-using System.Linq;
+﻿using System.IO.Pipelines.Networking.Sockets;
 using System.Net;
-using System.Text;
-using System.Text.Utf8;
-using System.Text.Formatting;
 using System.Threading.Tasks;
-using System.IO.Pipelines;
-using System.IO.Pipelines.Text.Primitives;
 
 namespace Munq.Redis.Client
 {
-    public class SimpleRedisClientFactory : IRedisConnectionfactory
+    public class SimpleRedisConnectionFactory : IRedisConnectionfactory
     {
         public async Task<RedisConnection> CreateAsync(string hostNameOrAddress, int port, int database)
         {
