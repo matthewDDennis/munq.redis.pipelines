@@ -34,7 +34,7 @@ namespace Munq.Redis.Client
             // TODO: make sure the correct database is selected.  Should this happen here or in the
             //       RedisConnectionFactory or RedisConnection constructor?
             // await EnsureDatabaseSelected();
-            return _connection.WriteRedisCommandAsync(command, parameters);
+            return _connection.WriteCommandAsync(command, parameters);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Munq.Redis.Client
         /// <returns>A Task with a response object as its result.</returns>
         public Task<object> ReadResponseAsync()
         {
-            return _connection.ReadRedisResponseAsync();
+            return _connection.ReadResponseAsync();
         }
     }
 }

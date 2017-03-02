@@ -25,11 +25,11 @@ namespace Munq.Redis.Client
         /// <param name="connection">The connection to the Redis Server.</param>
         /// <param name="command">The command.</param>
         /// <param name="parameters">The paramaters for the command.</param>
-        public static Task WriteRedisCommandAsync(this RedisConnection connection,
+        public static Task WriteCommandAsync(this RedisConnection connection,
                                                   string command,
                                                   params object[] parameters)
         {
-            return WriteRedisCommandAsync(connection, command, parameters.AsEnumerable());
+            return WriteCommandAsync(connection, command, parameters.AsEnumerable());
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Munq.Redis.Client
         /// <param name="connection">The connection to the Redis Server.</param>
         /// <param name="command">The command.</param>
         /// <param name="parameters">The paramaters for the command.</param>
-        public static async Task WriteRedisCommandAsync(this RedisConnection connection,
+        public static async Task WriteCommandAsync(this RedisConnection connection,
                                                   string command,
                                                   IEnumerable<object> parameters = null)
         {

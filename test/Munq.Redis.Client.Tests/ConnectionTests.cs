@@ -44,14 +44,15 @@ namespace Munq.Redis.Client.Tests
             using (var connection = new TestConnection())
             {
                 string expected = "*1\r\n$4Ping\r\n";
-                var redisConnection = new RedisConnection(connection, 1);
-                var client = new RedisClient(redisConnection);
-                await client.WriteCommandAsync("Ping");
+                using (var redisConnection = new RedisConnection(connection, null, 1))
+                {
+                    await redisConnection.WriteCommandAsync("Ping");
 
-                var readBuffer = await connection.RemoteInput.ReadAsync();
-                var actual = readBuffer.Buffer.GetUtf8String();
+                    var readBuffer = await connection.RemoteInput.ReadAsync();
+                    var actual = readBuffer.Buffer.GetUtf8String();
 
-                Assert.Equal(expected, actual);
+                    Assert.Equal(expected, actual);
+                }
             }
         }
     }

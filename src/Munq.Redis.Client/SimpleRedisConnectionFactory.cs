@@ -24,7 +24,7 @@ namespace Munq.Redis.Client
         public async Task<RedisConnection> CreateAsync(IPEndPoint endpoint, int database)
         {
             var socketConnection = await SocketConnection.ConnectAsync(endpoint);
-            return new RedisConnection(socketConnection, database);
+            return new RedisConnection(socketConnection, endpoint, database);
         }
     }
 }
