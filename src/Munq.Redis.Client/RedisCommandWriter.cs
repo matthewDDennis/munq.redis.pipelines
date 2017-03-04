@@ -11,14 +11,6 @@ namespace Munq.Redis.Client
 {
     public static class RedisCommandWriter
     {
-        static readonly Utf8String CRLF             = (Utf8String)"\r\n";
-        static readonly Utf8String NullString       = (Utf8String)"$-1\r\n";
-        static readonly Utf8String RedisTrue        = (Utf8String)"1";
-        static readonly Utf8String RedisFalse       = (Utf8String)"0";
-                                                    
-        static readonly Utf8String ArrayStart       = (Utf8String)"*";
-        static readonly Utf8String BulkStringStart  = (Utf8String)"$";
-
         /// <summary>
         /// Sends a command and it's parameters to the Stream.
         /// </summary>
@@ -48,12 +40,12 @@ namespace Munq.Redis.Client
                 throw new ArgumentNullException(nameof(connection));
 
             var sizeOfCommandArray = 1 + (parameters?.Count() ?? 0);
-            var output             = connection.Output.Alloc();
+            WritableBuffer output  = connection.Output.Alloc();
 
             // output the command array start
-            output.Write(ArrayStart);
+            output.Write(RedisProtocol.Utf8ArrayStart);
             output.Append(sizeOfCommandArray, TextEncoder.Utf8);
-            output.Write(CRLF);
+            output.Write(RedisProtocol.Utf8CRLF);
 
             // output the command
             var commandData = (Utf8String)command;
@@ -79,7 +71,7 @@ namespace Munq.Redis.Client
         {
             if (value == null)
             {
-                output.Write(NullString);
+                output.Write(RedisProtocol.Utf8NullString);
             }
 
             var objType = value.GetType();
@@ -89,7 +81,8 @@ namespace Munq.Redis.Client
             else if (objType == typeof(byte[]))
                 WriteRedisBulkString(output, new Utf8String(value as byte[]));
             else if (objType == typeof(bool))
-                WriteRedisBulkString(output, (bool)value ? RedisTrue : RedisFalse);
+                WriteRedisBulkString(output, (bool)value ? RedisProtocol.Utf8RedisTrue 
+                                                         : RedisProtocol.Utf8RedisFalse);
             else
                 WriteRedisBulkString(output, (Utf8String)(value.ToString()));
         }
@@ -100,10 +93,10 @@ namespace Munq.Redis.Client
         /// <param name="str">The string to write.</param>
         static void WriteRedisBulkString(WritableBuffer output, Utf8String str)
         {
-            output.Write(BulkStringStart);
+            output.Write(RedisProtocol.Utf8BulkStringStart);
             output.Append(str.Length,      TextEncoder.Utf8);
             output.Write(str);
-            output.Write(CRLF);
+            output.Write(RedisProtocol.Utf8CRLF);
         }
     }
 }

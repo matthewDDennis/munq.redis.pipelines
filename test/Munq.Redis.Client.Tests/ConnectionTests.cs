@@ -55,5 +55,24 @@ namespace Munq.Redis.Client.Tests
                 }
             }
         }
+
+        [Fact]
+        public async Task CanReadAResponse()
+        {
+            Utf8String expected = (Utf8String)"*1\r\n$4Ping\r\n";
+            using (var connection = new TestConnection())
+            {
+                var remoteOutput = connection.RemoteOutput.Alloc();
+                remoteOutput.Write(expected);
+                await remoteOutput.FlushAsync();
+
+                using (var redisConnection = new RedisConnection(connection, null, 1))
+                {
+                    var response = await redisConnection.ReadResponseAsync();
+
+                    Assert.True(false);
+                }
+            }
+        }
     }
 }
