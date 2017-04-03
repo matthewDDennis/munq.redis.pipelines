@@ -1,14 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <TargetFramework>netstandard1.6</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.IO.Pipelines" Version="0.1.0-e170222-1" />
-    <PackageReference Include="System.IO.Pipelines.Networking.Sockets" Version="0.1.0-e170222-1" />
-    <PackageReference Include="System.IO.Pipelines.Text.Primitives" Version="0.1.0-e170222-1" />
-    <PackageReference Include="System.Text.Formatting" Version="0.1.0-e170222-1" />
+    <PackageReference Include="System.IO.Pipelines" Version="0.1.0-e170401-1" />
+    <PackageReference Include="System.IO.Pipelines.Networking.Sockets" Version="0.1.0-e170401-1" />
+    <PackageReference Include="System.IO.Pipelines.Text.Primitives" Version="0.1.0-e170401-1" />
+    <PackageReference Include="System.Net.NameResolution" Version="4.4.0-beta-24913-02" />
+    <PackageReference Include="System.Text.Formatting" Version="0.1.0-e170401-1" />
   </ItemGroup>
 
 </Project>

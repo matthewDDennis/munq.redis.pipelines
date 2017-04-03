@@ -10,6 +10,8 @@ namespace Munq.Redis.Client
     {
         public static async Task<object> ReadResponseAsync(this RedisConnection connection)
         {
+            object result;
+
             if (connection == null)
                 throw new ArgumentNullException(nameof(connection));
 
@@ -17,27 +19,74 @@ namespace Munq.Redis.Client
             ReadableBuffer buffer = input.Buffer;
 
 
-            var leadByte = buffer.Slice(0, 1).First.Span[0];
+            var leadByte = buffer.First.Span[0];
+            buffer = buffer.Slice(1);
             switch (leadByte)
             {
                 case RedisProtocol.SimpleStringStart:
-                    return null;// return await ReadSimpleStringAsync().ConfigureAwait(false);
+                    result = buffer.ReadSimpleStringAsync();
+                    break;
 
                 case RedisProtocol.ErrorStart:
-                    return null;// return await ReadErrorStringAsync().ConfigureAwait(false);
+                    result = buffer.ReadErrorStringAsync();
+                    break;
 
                 case RedisProtocol.NumberStart:
-                    return null;// return await ReadLongAsync().ConfigureAwait(false);
+                    result = buffer.ReadLongAsync();
+                    break;
 
                 case RedisProtocol.BulkStringStart:
-                    return null;// return await ReadBulkStringAsync().ConfigureAwait(false);
+                    result = buffer.ReadBulkStringAsync();
+                    break;
 
                 case RedisProtocol.ArrayStart:
-                    return null;// return await ReadArrayAsync().ConfigureAwait(false);
+                    result = buffer.ReadArrayAsync();
+                    break;
 
                 default:
-                    return null;// return new RedisErrorString("Invalid response initial character " + c);
+                    result = new RedisErrorString("Invalid response initial character " + (char)leadByte);
+                    break;
             }
+
+            return result;
+        }
+
+        private static object ReadSimpleStringAsync(this ReadableBuffer buffer)
+        {
+            // Find \n
+            ReadCursor delim;
+            ReadableBuffer line;
+
+            if (!buffer.TrySliceTo((byte)'\r', (byte)'\n', out line, out delim))
+            {
+                return new RedisErrorString("Unable to read line");
+            }
+            PreservedBuffer preservedBuffer = line.Preserve();
+
+            // Move the buffer to the rest
+            buffer = buffer.Slice(delim).Slice(2);
+
+            return preservedBuffer;
+        }
+
+        private static object ReadErrorStringAsync(this ReadableBuffer buffer)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static object ReadLongAsync(this ReadableBuffer buffer)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static object ReadBulkStringAsync(this ReadableBuffer buffer)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static object ReadArrayAsync(this ReadableBuffer buffer)
+        {
+            throw new NotImplementedException();
         }
     }
 }
